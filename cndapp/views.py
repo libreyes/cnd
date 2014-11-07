@@ -125,8 +125,8 @@ class PreOpAssessmentCreateView(CreateView):
         self.object = None
         form_class = self.get_form_class()
         form = self.get_form(form_class)
-        right_va_form = PreOpAssessmentVisualAcuityReadingFormSet(self.request.POST, initial = {'eye': Eye.objects.get(name = 'Right')}, prefix = 'r')
-        left_va_form = PreOpAssessmentVisualAcuityReadingFormSet(self.request.POST, initial = {'eye': Eye.objects.get(name = 'Left')}, prefix = 'l')
+        right_va_form = PreOpAssessmentVisualAcuityReadingFormSet(self.request.POST, initial = [{'eye': Eye.objects.get(name = 'Right')}], prefix = 'r')
+        left_va_form = PreOpAssessmentVisualAcuityReadingFormSet(self.request.POST, initial = [{'eye': Eye.objects.get(name = 'Left')}], prefix = 'l')
         if (form.is_valid() and right_va_form.is_valid() and left_va_form.is_valid()):
             return self.form_valid(form, [right_va_form, left_va_form])
         else:
