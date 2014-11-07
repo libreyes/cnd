@@ -88,7 +88,7 @@ class PatientCreateView(CreateView):
 
 class PatientDeleteView(DeleteView):
     context_object_name = 'patient'
-    success_url = '/cndapp/list/'
+    success_url = 'cndapp/patient'
 
     def get_queryset(self):
         return Patient.objects.filter(created_by=self.request.user)
