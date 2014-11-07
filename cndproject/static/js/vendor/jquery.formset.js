@@ -74,8 +74,8 @@
             }
             $addBtn.click(function() {
                 var nextIndex = parseInt($('#id_' + options.prefix + '-TOTAL_FORMS').val());
-                var row = $('.' + options.formCssClass + ':first').clone(true).get(0);
-                $(row).removeAttr('id').insertAfter($('.' + options.formCssClass + ':last'));
+                var row = $('.' +options.prefix+ '.'+ options.formCssClass + ':first').clone(true).get(0);
+                $(row).removeAttr('id').insertAfter($('.' + options.prefix + '.' + options.formCssClass + ':last'));
                 $(row).find('input,select,textarea,label').each(function() {
                     updateElementIndex(this, options.prefix, nextIndex);
                     // If this is a checkbox or radiobutton, set uncheck it.
