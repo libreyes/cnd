@@ -241,7 +241,7 @@ class PreOpAssessmentVisualAcuityReading(models.Model):
     eye = models.ForeignKey(Eye)
     scale = models.ForeignKey(VisualAcuityScale)
     correction = models.ForeignKey(VisualAcuityCorrection)
-    value = models.DecimalField(max_digits = 3, decimal_places = 2)
+    value = models.CharField(max_length=4)
 
     def __unicode__(self):
         return str(self.pk)
@@ -306,7 +306,7 @@ class FollowUpVisualAcuityReading(models.Model):
     eye = models.ForeignKey(Eye)
     scale = models.ForeignKey(VisualAcuityScale)
     correction = models.ForeignKey(VisualAcuityCorrection)
-    value = models.DecimalField(max_digits = 3, decimal_places = 2)
+    value = models.CharField(max_length=4)
 
     def __unicode__(self):
         return str(self.pk)
