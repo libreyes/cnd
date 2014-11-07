@@ -49,6 +49,9 @@
             <div class="right-eye {% if patient.treated_eye.name == 'Right' %}treated-eye{% endif %}">
 		{% with va_form=right_va_form %}{% include "cndapp/va_forms.html" %}{% endwith %}
 	    </div>
+            <div class="left-eye {% if patient.treated_eye.name == 'Left' %}treated-eye{% endif %}">
+		{% with va_form=left_va_form %}{% include "cndapp/va_forms.html" %}{% endwith %}
+	    </div>
 	</div>
     </fieldset>
     <fieldset>
