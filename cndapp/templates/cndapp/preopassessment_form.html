@@ -169,12 +169,15 @@
 {% endblock %}
 {% block body-end %}
 <script type="text/javascript">
+    
     $(function() {
         $('.inline.{{ right_va_form.prefix }}').formset({
             prefix: '{{ right_va_form.prefix }}',
+            added: function(form){ form.find('select[name$="eye"]').val(2) },
         });
         $('.inline.{{ left_va_form.prefix }}').formset({
             prefix: '{{ left_va_form.prefix }}',
+            added: function(form){ form.find('select[name$="eye"]').val(1) },
         });
     })
     $(document).ready(function() {
