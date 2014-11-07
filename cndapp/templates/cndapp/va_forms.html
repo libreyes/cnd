@@ -1,0 +1,27 @@
+{{ va_form.management_form }}
+{{ va_form.non_form_errors }}
+{% for form in va_form %}
+{{ form.id }}
+<ul class="inline {{ va_form.prefix }}">
+    <li>
+        {{ form.eye.label_tag }}
+        {{ form.eye }}
+        {{ form.eye.errors }}
+    </li>
+    <li>
+        {{ form.scale.label_tag }}
+        {{ form.scale }}
+        {{ form.scale.errors }}
+    </li>
+    <li>
+        <label for="{{ form.correction.id_for_label }}"><span class="help"><span>List is in preferred order</span></span>Correction</label>
+        {{ form.correction }}
+        {{ form.correction.errors }}
+    </li>
+    <li>
+        {{ form.value.label_tag }}
+        {{ form.value }}
+        {{ form.value.errors }}
+    </li>
+</ul>
+{% endfor %}

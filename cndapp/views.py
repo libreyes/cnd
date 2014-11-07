@@ -110,9 +110,10 @@ class PreOpAssessmentCreateView(CreateView):
         self.object = None
         form_class = self.get_form_class()
         form = self.get_form(form_class)
-        va_form = PreOpAssessmentVisualAcuityReadingFormSet()
+        right_va_form = PreOpAssessmentVisualAcuityReadingFormSet(initial = [{'eye': Eye.objects.get(name = 'Right')}], prefix = 'r')
+        left_va_form = PreOpAssessmentVisualAcuityReadingFormSet(initial = [{'eye': Eye.objects.get(name = 'Left')}], prefix = 'l')
         return self.render_to_response(
-            self.get_context_data(patient=self.patient, form=form, va_form=va_form))
+            self.get_context_data(patient=self.patient, form=form, right_va_form=right_va_form, left_va_form=left_va_form))
 
     def post(self, request, *args, **kwargs):
         """
@@ -124,13 +125,14 @@ class PreOpAssessmentCreateView(CreateView):
         self.object = None
         form_class = self.get_form_class()
         form = self.get_form(form_class)
-        va_form = PreOpAssessmentVisualAcuityReadingFormSet(self.request.POST)
-        if (form.is_valid() and va_form.is_valid()):
-            return self.form_valid(form, va_form)
+        right_va_form = PreOpAssessmentVisualAcuityReadingFormSet(self.request.POST, initial = {'eye': Eye.objects.get(name = 'Right')}, prefix = 'r')
+        left_va_form = PreOpAssessmentVisualAcuityReadingFormSet(self.request.POST, initial = {'eye': Eye.objects.get(name = 'Left')}, prefix = 'l')
+        if (form.is_valid() and right_va_form.is_valid() and left_va_form.is_valid()):
+            return self.form_valid(form, [right_va_form, left_va_form])
         else:
-            return self.form_invalid(form, va_form)
+            return self.form_invalid(form, right_va_form, left_va_form)
 
-    def form_valid(self, form, va_form):
+    def form_valid(self, form, va_forms):
         """
         Called if all forms are valid. Creates a Recipe instance along with
         associated Ingredients and Instructions and then redirects to a
@@ -138,21 +140,22 @@ class PreOpAssessmentCreateView(CreateView):
         """
         form.instance.patient = self.patient
         self.object = form.save()
-        va_form.instance = self.object
-        va_form.save()
+        for va_form in va_forms:
+            va_form.instance = self.object
+            va_form.save()
         if 'save_and_next' in form.data:
             redirect = reverse('create_opnote', kwargs={'patient': self.patient.id})
         else:
             redirect = self.get_success_url()
         return HttpResponseRedirect(redirect)
 
-    def form_invalid(self, form, va_form):
+    def form_invalid(self, form, right_va_form, left_va_form):
         """
         Called if a form is invalid. Re-renders the context data with the
         data-filled forms and errors.
         """
         return self.render_to_response(
-            self.get_context_data(patient=self.patient, form=form, va_form=va_form))
+            self.get_context_data(patient=self.patient, form=form, right_va_form=right_va_form, left_va_form=left_va_form))
 
 class OpNoteCreateView(CreateView):
     model = OpNote
